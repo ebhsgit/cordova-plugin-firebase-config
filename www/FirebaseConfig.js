@@ -8,6 +8,11 @@ function promiseParameter(type, key) {
 }
 
 module.exports = {
+    getInfo: function() {
+        return new Promise(function(resolve, reject) {
+            exec(resolve, reject, PLUGIN_NAME, "getInfo", []);
+        });  
+    },
     fetch: function(expirationDuration) {
         return new Promise(function(resolve, reject) {
             exec(resolve, reject, PLUGIN_NAME, "fetch", [expirationDuration || 0]);

@@ -9,10 +9,13 @@ import by.chemerisuk.cordova.support.CordovaMethod;
 import by.chemerisuk.cordova.support.ReflectiveCordovaPlugin;
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigInfo;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigValue;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.PluginResult;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class FirebaseConfigPlugin extends ReflectiveCordovaPlugin {
@@ -36,6 +39,21 @@ public class FirebaseConfigPlugin extends ReflectiveCordovaPlugin {
             int resourceId = ctx.getResources().getIdentifier(filename, "xml", ctx.getPackageName());
             firebaseRemoteConfig.setDefaultsAsync(resourceId);
         }
+    }
+
+    @CordovaMethod
+    protected void getInfo(final CallbackContext callbackContext) {
+        FirebaseRemoteConfigInfo info = firebaseRemoteConfig.getInfo();
+
+        JSONObject data = new JSONObject();
+        try {
+            data.put("fetchTime", info.getFetchTimeMillis());
+            data.put("status", info.getLastFetchStatus());
+        }
+        catch (JSONException ignored) {
+        }
+
+        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, data));
     }
 
     @CordovaMethod
