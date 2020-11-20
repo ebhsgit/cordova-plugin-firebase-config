@@ -48,7 +48,7 @@ public class FirebaseConfigPlugin extends ReflectiveCordovaPlugin {
         JSONObject data = new JSONObject();
         try {
             data.put("fetchTime", info.getFetchTimeMillis());
-            data.put("status", info.getLastFetchStatus());
+            data.put("lastFetchStatus", info.getLastFetchStatus());
         }
         catch (JSONException ignored) {
         }
